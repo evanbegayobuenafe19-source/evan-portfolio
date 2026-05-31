@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding Invitation of Julius & Mercedes</title>
+    <!-- Elegant premium fonts for wedding themes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #B38E5D;
+            --bg-cream: #FDFBF7;
+            --text-dark: #2A2A2A;
+            --text-muted: #666666;
+            --letter-spacing-wide: 0.18em;
+            --border-light: rgba(179, 142, 93, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #E2DDD5;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            padding-bottom: 70px; /* Space para sa sticky navigation bar sa ibaba */
+        }
+
+        /* Locked to smartphone viewport preview widths */
+        .digital-invitation-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--bg-cream);
+            padding: 40px 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ---------------------------------- */
+        /* STICKY BOTTOM SITEMAP NAVIGATION   */
+        /* ---------------------------------- */
+        .sitemap-nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-around;
+            padding: 14px 0;
+            z-index: 999;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+        }
+
+        .nav-link-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-btn.active-nav, .nav-link-btn:hover {
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+
+        /* View Switching Logic Container */
+        .assignment-page-view {
+            display: none;
+        }
+
+        .assignment-page-view.active-view {
+            display: block;
+        }
+
+        /* Typography Assignments */
+        .script-heading {
+            font-family: 'Pinyon Script', cursive;
+            color: var(--primary-gold);
+            font-size: 3.2rem;
+            text-align: center;
+            margin-bottom: 0.3rem;
+            line-height: 1.1;
+        }
+
+        .serif-subtext {
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Decorative Elements */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background-color: var(--primary-gold);
+            margin: 1.5rem auto;
+            opacity: 0.6;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--primary-gold);
+            margin: 1.5rem 0 1.5rem 0;
+        }
+
+        /* Hero Image Layout */
+        .hero-image-wrapper {
+            width: 100%;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-light);
+            padding: 6px;
+            background: #ffffff;
+        }
+
+        .hero-img {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        /* Details Section */
+        .event-details {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .event-date {
+            font-size: 1.4rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+            font-weight: 400;
+        }
+
+        .event-location {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Countdown Timer Design */
+        .timer-container {
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 0;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .timer-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--primary-gold);
+            margin-bottom: 14px;
+        }
+
+        .timer-grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .timer-col {
+            display: table-cell;
+            text-align: center;
+            width: 25%;
+        }
+
+        .timer-val {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--text-dark);
+            line-height: 1.1;
+        }
+
+        .timer-lbl {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Interactive RSVP Form System with Email Gateway */
+        .rsvp-section {
+            background-color: #ffffff;
+            border: 1px solid var(--border-light);
+            padding: 24px 20px;
+            margin: 1.5rem 0;
+        }
+
+        .rsvp-form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .rsvp-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .rsvp-input, .rsvp-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            outline: none;
+            border-radius: 0;
+            transition: border 0.3s;
+        }
+
+        .rsvp-input:focus, .rsvp-select:focus {
+            border: 1px solid var(--primary-gold);
+        }
+
+        /* Button Design System */
+        .cta-gold-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-gold);
+            color: #FFFFFF;
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 14px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 0px; 
+            transition: all 0.4s ease-in-out;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .cta-gold-btn:hover {
+            background-color: var(--text-dark);
+            letter-spacing: 3px;
+        }
+
+        /* Guideline Box Styles for Invitee Instructions */
+        .instruction-card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-light);
+            padding: 24px 20px;
+            margin: 1.5rem 0;
+        }
+
+        .instruction-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .instruction-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .instruction-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary-gold);
+            margin-right: 14px;
+            margin-top: 2px;
+        }
+
+        /* ASYMMETRIC MASONRY GALLERY LAYOUT */
+        .gallery-container {
+            margin-top: 2.5rem;
+        }
+
+        .gallery-item {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-light);
+            padding: 5px;
+            background-color: #FFFFFF;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        /* Asymmetric overlapping-style layout */
+        .gallery-flex-asymmetric {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+
+        .gallery-flex-left {
+            flex: 1.2;
+        }
+
+        .gallery-flex-right {
+            flex: 0.8;
+        }
+
+        .gallery-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .footer-note {
+            font-family: 'Pinyon Script', cursive;
+            color: var(--primary-gold);
+            font-size: 2.2rem;
+            text-align: center;
+            margin: 2.5rem 0 1rem 0;
+        }
+
+        /* PREPARATION FOR GSAP (Para iwas kurap habang naglo-load) */
+        .animate-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="digital-invitation-container">
+        
+        <!-- ========================================================== -->
+        <!-- PAGE 1: HOME RSVP PAGE                                     -->
+        <!-- ========================================================== -->
+        <div id="view-home-rsvp" class="assignment-page-view active-view">
+            <!-- Header Branding Section -->
+            <div class="header-animate">
+                <p class="serif-subtext">The Wedding Invitation of</p>
+                <h1 class="script-heading">Julius & Mercedes</h1>
+                <p class="serif-subtext" style="font-size: 0.75rem; color: var(--primary-gold); margin-top: -5px;">( Ka Mangyan Vlogs )</p>
+                <div class="divider"></div>
+            </div>
+
+            <!-- HERO SECTION IMAGE -->
+            <div class="hero-image-wrapper header-animate">
+                <img class="hero-img" src="https://cdn.phototourl.com/free/2026-05-31-c694e7ce-e225-4384-8fb3-588b8dc36097.jpg" alt="Julius and Mercedes Wedding Day">
+            </div>
+
+            <!-- Wedding Event Details Quick Look -->
+            <div class="event-details header-animate">
+                <div class="event-date">APRIL 23, 2026</div>
+                <div class="event-location">
+                    Our Lady of Lourdes Parish<br>
+                    Tagaytay City, Cavite, Philippines
+                </div>
+            </div>
+
+            <!-- LIVE COUNT-UP TIMER -->
+            <div class="timer-container animate-reveal">
+                <div class="timer-title" id="timer-status">Days since our unforgettable day</div>
+                <div class="timer-grid">
+                    <div class="timer-col">
+                        <div class="timer-val" id="days">00</div>
+                        <div class="timer-lbl">Days</div>
+                    </div>
+                    <div class="timer-col">
+                        <div class="timer-val" id="hours">00</div>
+                        <div class="timer-lbl">Hrs</div>
+                    </div>
+                    <div class="timer-col">
+                        <div class="timer-val" id="minutes">00</div>
+                        <div class="timer-lbl">Mins</div>
+                    </div>
+                    <div class="timer-col">
+                        <div class="timer-val" id="seconds">00</div>
+                        <div class="timer-lbl">Secs</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button to Next Page Requirement -->
+            <div class="animate-reveal" style="margin-top: 2rem;">
+                <button type="button" class="cta-gold-btn" onclick="switchAssignmentPage('view-venue-info')">Tingnan ang Venue Detalye</button>
+            </div>
+        </div>
+
+
+        <!-- ========================================================== -->
+        <!-- PAGE 2: VENUE INFO PAGE                                    -->
+        <!-- ========================================================== -->
+        <div id="view-venue-info" class="assignment-page-view">
+            <h2 class="section-title">Venue Details</h2>
+            
+            <div class="event-details" style="margin-top: 1rem;">
+                <h3 style="font-size: 1.4rem; font-weight: 400; margin-bottom: 8px; color: var(--primary-gold);">The Church</h3>
+                <div class="event-date" style="font-size: 1.2rem;">Our Lady of Lourdes Parish</div>
+                <div class="event-location" style="font-size: 0.85rem; margin-top: 4px;">
+                    Aguinaldo Highway, Silang Junction North, Tagaytay, Cavite
+                </div>
+            </div>
+
+            <!-- Cinematic Landscape View of Venue Concept -->
+            <div class="hero-image-wrapper">
+                <img class="hero-img" src="https://cdn.phototourl.com/free/2026-05-31-fd62585f-2635-4d5f-9adb-077f7c05e00b.jpg" alt="Scenic Landscape View">
+            </div>
+
+            <div class="event-details" style="margin: 2rem 0;">
+                <p style="font-style: italic; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                    "Ang seremonya ng kasal ay magsisimula nang eksaktong 3:00 PM. Hinihiling po namin ang maagang pagdating ng lahat para sa pormal na pag-aayos."
+                </p>
+            </div>
+
+            <button type="button" class="cta-gold-btn" onclick="switchAssignmentPage('view-invitee-instructions')">Tumungo sa Instructions</button>
+        </div>
+
+
+        <!-- ========================================================== -->
+        <!-- PAGE 3: INVITEE INSTRUCTIONS PAGE                          -->
+        <!-- ========================================================== -->
+        <div id="view-invitee-instructions" class="assignment-page-view">
+            <h2 class="section-title">Invitee Instructions</h2>
+
+            <!-- Guidelines and Protocols Box -->
+            <div class="instruction-card">
+                <div class="instruction-row">
+                    <span class="instruction-number">01</span>
+                    <p><strong>Dress Code Color Palette:</strong> Upang mapanatili ang pormal na kaayusan, hinihiling po namin sa mga bisita na magsuot ng mga kulay na <strong>Navy Blue, Gold, o Cream</strong>.</p>
+                </div>
+                <div class="instruction-row">
+                    <span class="instruction-number">02</span>
+                    <p><strong>Strict RSVP Policy:</strong> Ang bulwagan ay may limitadong kapasidad. Tanging mga bisitang nakatanggap ng kumpirmasyon ang may nakalaang upuan.</p>
+                </div>
+                <div class="instruction-row">
+                    <span class="instruction-number">03</span>
+                    <p><strong>Registration Deadline:</strong> Mangyaring magpatala bago ang takdang araw upang maihabol ang inyong pangalan sa pinal na listahan ng catering services.</p>
+                </div>
+            </div>
+
+            <!-- EMAIL-CONNECTED RSVP RESERVATION SYSTEM -->
+            <div class="rsvp-section" id="rsvp-block">
+                <h3 class="serif-subtext" style="margin-bottom: 20px; color: var(--primary-gold);">Attendance Registration</h3>
+                
+                <form id="assignment-rsvp-form" action="https://formsubmit.co/iyong-email@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="Bagong Wedding RSVP Notification!">
+                    
+                    <div class="rsvp-form-group">
+                        <label class="rsvp-label">Pangalan / Guest Name</label>
+                        <input type="text" name="Pangalan" class="rsvp-input" placeholder="Ipasok ang buong pangalan" required>
+                    </div>
+
+                    <div class="rsvp-form-group">
+                        <label class="rsvp-label">Email Address</label>
+                        <input type="email" name="Email" class="rsvp-input" placeholder="iyong-email@gmail.com" required>
+                    </div>
+
+                    <div class="rsvp-form-group">
+                        <label class="rsvp-label">Dadalo ka ba? / Will you attend?</label>
+                        <select name="Atendans" class="rsvp-select" required>
+                            <option value="Yes, I will be there">Oo, Malugod akong dadalo</option>
+                            <option value="No, I cannot make it">Paumanhin, hindi makakarating</option>
+                        </select>
+                    </div>
+
+                    <div class="rsvp-form-group" style="margin-bottom: 24px;">
+                        <label class="rsvp-label">Bilang ng Kasama / Number of Seats</label>
+                        <select name="Mga_Kasama" class="rsvp-select">
+                            <option value="Just Me (1 Seat)">Ako lang mag-isa (1 Seat)</option>
+                            <option value="1 Guest (2 Seats)">May kasamang isa (2 Seats)</option>
+                            <option value="2 Guests (3 Seats)">May kasamang dalawa (3 Seats)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="cta-gold-btn">Ipadala sa Email ang RSVP</button>
+                </form>
+            </div>
+
+            <!-- ASYMMETRIC IMAGE GRID LAYOUT -->
+            <div class="gallery-container">
+                <h2 class="section-title">Our Pre-Wedding Collection</h2>
+                
+                <!-- Feature Image 2 (Portrait View) -->
+                <div class="gallery-item">
+                    <img src="https://cdn.phototourl.com/free/2026-05-31-fe7b3333-3794-4aa3-8dba-a1370d2feb20.jpg" alt="Julius and Mercedes Portrait">
+                    <div class="gallery-caption">"Ang galing no? Unang pasok mo pa lang sa buhay ko, asawa ka na..."</div>
+                </div>
+
+                <!-- Asymmetric Flex Row -->
+                <div class="gallery-flex-asymmetric">
+                    <div class="gallery-flex-left">
+                        <div class="gallery-item" style="margin-bottom: 0;">
+                            <img src="https://cdn.phototourl.com/free/2026-05-31-9853d3f8-5684-4455-af89-8125284a5b1e.jpg" alt="Prenup Showcase Left">
+                        </div>
+                    </div>
+                    <div class="gallery-flex-right">
+                        <div class="gallery-item" style="margin-bottom: 0; padding: 4px;">
+                            <img src="https://cdn.phototourl.com/free/2026-05-31-535ec44e-b848-4a21-a269-3dcc9680853e.jpg" alt="Prenup Showcase Right">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Image 4 (Bottom Final View) -->
+                <div class="gallery-item" style="margin-top: 24px;">
+                    <img src="https://cdn.phototourl.com/free/2026-05-31-d75c93af-a13f-4d71-87eb-02ddad61c338.jpg" alt="Final Dynamic Bottom Image">
+                </div>
+            </div>
+
+            <p class="footer-note">Sa bawat araw na darating, pinipili kita...</p>
+        </div>
+
+
+        <!-- ========================================================== -->
+        <!-- PAGE 4: THANK YOU PAGE                                     -->
+        <!-- ========================================================== -->
+        <div id="view-thank-you-page" class="assignment-page-view" style="text-align: center; padding-top: 4rem;">
+            <h1 class="script-heading" style="font-size: 4.5rem; margin-bottom: 1rem;">Thank You!</h1>
+            <div class="divider"></div>
+            <p class="serif-subtext" style="color: var(--primary-gold); font-size: 0.8rem;">Maraming Salamat sa Inyong Pagtugon</p>
+            
+            <p style="font-size: 1.1rem; line-height: 1.6; margin: 2rem 0 3rem 0; color: var(--text-dark); font-family: 'Cormorant Garamond', serif; font-style: italic;">
+                "Ang inyong mga sagot at detalye ng pagdalo ay matagumpay na naipadala sa aming database system. Labis ang aming kagalakan na makasama kayo sa pagsisimula ng aming walang hanggang kuwento."
+            </p>
+
+            <button type="button" class="cta-gold-btn" style="max-width: 260px; margin: 0 auto;" onclick="switchAssignmentPage('view-home-rsvp')">Bumalik sa Unang Pahina</button>
+        </div>
+
+    </div>
+
+    <!-- SITEMAP DIRECT COMPONENT NAVIGATION BAR -->
+    <nav class="sitemap-nav-bar">
+        <button type="button" onclick="switchAssignmentPage('view-home-rsvp')" class="nav-link-btn active-nav" id="nav-view-home-rsvp">Home RSVP</button>
+        <button type="button" onclick="switchAssignmentPage('view-venue-info')" class="nav-link-btn" id="nav-view-venue-info">Venue Info</button>
+        <button type="button" onclick="switchAssignmentPage('view-invitee-instructions')" class="nav-link-btn" id="nav-view-invitee-instructions">Instructions</button>
+    </nav>
+
+    <!-- 1. KUNIN ANG GSAP CORE SCRIPTS AT SCROLLTRIGGER PLUGIN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- 2. MULTI-PAGE CONTROLLER LOGIC FOR ASSIGNMENT REQUIREMENT -->
+    <script>
+        function switchAssignmentPage(targetViewId) {
+            // Itago ang kasalukuyang active na view
+            document.querySelectorAll('.assignment-page-view').forEach(view => {
+                view.classList.remove('active-view');
+            });
+
+            // Ipakita ang bagong target na view
+            const activeTargetView = document.getElementById(targetViewId);
+            if(activeTargetView) {
+                activeTargetView.classList.add('active-view');
+                
+                // Awtomatikong i-scroll sa pinaka-itaas para sa bagong page layout feel
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // Refresh ang ScrollTrigger calculation dahil nagbago ang taas ng page element contents
+                ScrollTrigger.refresh();
+                
+                // Patakbuhin muli ang custom transition load ng GSAP para sa dynamic view switching appearance
+                gsap.fromTo(activeTargetView.children, 
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 }
+                );
+            }
+
+            // Baguhin ang status indicators sa sitemap tracking menu
+            document.querySelectorAll('.nav-link-btn').forEach(btn => {
+                btn.classList.remove('active-nav');
+            });
+            
+            const activeNavBtn = document.getElementById('nav-' + targetViewId);
+            if(activeNavBtn) {
+                activeNavBtn.classList.add('active-nav');
+            }
+        }
+    </script>
+
+    <!-- 3. GSAP INITIALIZATION AND ANIMATION SCRIPT -->
+    <script>
+        // I-activate ang ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // A. Entry Animation para sa Hero Section pagkabukas na pagkabukas ng Page
+        window.addEventListener("DOMContentLoaded", () => {
+            const tl = gsap.timeline();
+            tl.fromTo(".header-animate", 
+                { opacity: 0, y: 40 }, 
+                { opacity: 1, y: 0, duration: 1.2, ease: "power4.out", stagger: 0.2 }
+            );
+        });
+
+        // B. Scroll Trigger Reveal Animation para sa iba pang mga Sections habang nag-i-scroll pababa
+        const revealElements = document.querySelectorAll(".animate-reveal");
+        
+        revealElements.forEach((element) => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1, 
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%", // Magsisimula ang animation kapag umabot ang top ng element sa 85% ng screen
+                        toggleActions: "play none none none" // Patatakbuhin lang ng isang beses para hindi nakakahilo
+                    }
+                }
+            );
+        });
+    </script>
+
+    <!-- 4. EMAIL FORM HANDLER TRANSITION TO SITEMAP THANK YOU PAGE -->
+    <script>
+        document.getElementById('assignment-rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Pigilan muna ang built-in page reload redirect para magamit ang target state logic natin
+            
+            const nativeForm = this;
+            
+            // I-forward ang form values sa FormSubmit backend system gamit ang Fetch API asynchronous request
+            fetch(nativeForm.action, {
+                method: 'POST',
+                body: new FormData(nativeForm),
+                headers: { 'Accept': 'application/json' }
+            });
+
+            // Diretsong lumipat sa magkakahiwalay na Thank You page system na hiningi sa Guild Assignment
+            switchAssignmentPage('view-thank-you-page');
+            nativeForm.reset(); // I-clear ang entries
+        });
+    </script>
+
+    <!-- COUNT-UP TIMER LOGIC FOR WEDDING DATE -->
+    <script>
+        const weddingDate = new Date("April 23, 2026 15:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = now - weddingDate;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
